@@ -6,7 +6,7 @@ const multer = require('multer');
 const path = require('path');
 
 const app = express();
-const port = 3000;
+const port = 5001;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -93,7 +93,7 @@ app.post('/api/movies', upload.single('image'), (req, res) => {
         });
     } else {
         console.log(req.file.filename)
-        var imgsrc = 'http://localhost:3000/images/' + req.file.filename
+        var imgsrc = 'http://localhost:5001/images/' + req.file.filename
         // buat variable penampung data dan query sql
         const data = { ...req.body};
         const querySql = 'INSERT INTO movies (judul,rating,deskripsi,sutradara,foto) values (?,?,?,?,?)';
