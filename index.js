@@ -1,5 +1,4 @@
 const express = require('express');
-const bodyParsery = require('body-parser');
 const koneksi = require('./config/database');
 const bodyParser = require('body-parser');
 const multer = require('multer');
