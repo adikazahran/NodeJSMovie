@@ -150,15 +150,18 @@ app.delete('/api/movies/:id', (req, res) => {
 });
 
 // Update Data
-app.post('/api/movies/update', function (req, res) {
+app.post('/api/movies/update', upload.single('image'), function (req, res) {
     const data = {...req.body};
     const id = data.id;
     const judul = data.judul;
     const rating = data.rating;
-    const deskripsi = data.deskrispi;
+    const deskripsi = data.deskripsi;               
     const sutradara = data.sutradara;
-    const queryStr = 'UPDATE movies SET judul = ?, rating = ?, deskripsi = ?, sutradara = ? WHERE id = ?';
-    const values = [judul, rating, deskripsi, sutradara, id]; // id ditempatkan di akhir array values
+    const foto = req.file ? 'http://localhost:5001/images/' + req.file.filename : data.foto;
+
+    const queryStr = 'UPDATE movies SET judul = ?, rating = ?, deskripsi = ?, sutradara = ?, foto = ? WHERE id = ?';
+    const values = [judul, rating, deskripsi, sutradara, foto, id]; // id ditempatkan di akhir array values
+    
     koneksi.query(queryStr, values, (err, results) => {
         if (err) {
             console.log(err);
@@ -175,10 +178,6 @@ app.post('/api/movies/update', function (req, res) {
         });
     });
 });
-
-
-
-
 
 app.listen(port, () => {
     console.log(`Server listening at http://localhost:${port}`);
