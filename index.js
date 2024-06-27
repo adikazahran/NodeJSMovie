@@ -7,6 +7,9 @@ const path = require('path');
 const app = express();
 const port = 5001;
 
+const cors = require('cors');
+app.use(cors());
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
@@ -102,7 +105,7 @@ app.post('/api/movies', upload.single('image'), (req, res) => {
         const sutradara = req.body.sutradara;
         const foto = imgsrc;
 
-        // Jalankan Query
+        // Jalankan Query 
         koneksi.query(querySql,[judul, rating, deskripsi, sutradara, foto], (err, rows, field) => {
             // Error Handling
             if (err) {
@@ -136,7 +139,7 @@ app.get('/api/movies/filter/:judul', (req, res) => {
 // Delete Data
 app.delete('/api/movies/:id', (req, res) => {
     // buat query sql untuk mencari data dan hapus
-    // const querySearch = 'SELECT * FROM movies WHERE id=?';
+    const querySearch = 'SELECT * FROM movies WHERE id=?';
     const queryDelete = 'DELETE from movies where id=?';
     koneksi.query(queryDelete,req.params.id, (err, rows, field) => {
         if (err) {
@@ -148,7 +151,7 @@ app.delete('/api/movies/:id', (req, res) => {
     });
 });
 
-// Update Data
+// Update Dataa
 app.post('/api/movies/update', upload.single('image'), function (req, res) {
     const data = {...req.body};
     const id = data.id;
@@ -159,7 +162,7 @@ app.post('/api/movies/update', upload.single('image'), function (req, res) {
     const foto = req.file ? 'http://localhost:5001/images/' + req.file.filename : data.foto;
 
     const queryStr = 'UPDATE movies SET judul = ?, rating = ?, deskripsi = ?, sutradara = ?, foto = ? WHERE id = ?';
-    const values = [judul, rating, deskripsi, sutradara, foto, id]; // id ditempatkan di akhir array values
+    const values = [judul, rating, deskripsi, sutradara, foto, id]; 
     
     koneksi.query(queryStr, values, (err, results) => {
         if (err) {
